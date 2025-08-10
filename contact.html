@@ -5,37 +5,89 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Contact — AlphaAgentH</title>
   <meta name="description" content="Get in touch with AlphaAgentH." />
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/site.css" />
 </head>
 <body>
-  <header class="site-header">
+  <nav class="top">
+    <div class="wrap row">
+      <div class="brand">
+        <img src="/images/profile_pic.jpg" alt="AlphaAgentH logo">
+        <span class="name">AlphaAgentH</span>
+      </div>
+      <div class="menu">
+        <a href="/market-insights.html">Market Insights</a>
+        <a href="/ai_services.html">AI Services</a>
+        <a href="https://www.youtube.com/@AlphaAgentH" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn" href="/#contact">Home</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
     <div class="wrap">
-      <a class="brand" href="/">AlphaAgentH</a>
-      <nav>
-        <a href="/market-insights.html">Daily Market Insights</a>
-        <a href="/about.html">About</a>
-        <a class="active" href="/contact.html">Contact</a>
-      </nav>
+      <h1>Contact</h1>
+      <p class="lede">Partnerships, media, or consulting — we’d love to hear from you.</p>
+      <div class="ad-slot">Ad placeholder — contact top</div>
     </div>
   </header>
-<div><img class="hero-portrait" src="/images/profile_pic.jpg" alt="AlphaAgentH portrait"/></div>
+
   <main class="wrap">
-    <h1>Contact</h1>
-    <p>Email: <a href="mailto:team@alphaagenth.com">team@alphaagenth.com</a></p>
-    <p>For media or partnership inquiries, please include “Media” in the subject line.</p>
+    <section class="section">
+      <div class="grid">
+        <div class="card">
+          <h2>Email</h2>
+          <p class="lede"><a href="mailto:team@alphaagenth.com">team@alphaagenth.com</a></p>
+          <p class="subtle">We typically reply within 1–2 business days.</p>
+        </div>
+        <div class="card">
+          <h2>Social</h2>
+          <p><a href="https://www.youtube.com/@AlphaAgentH" target="_blank" rel="noopener">YouTube: @AlphaAgentH</a></p>
+          <p class="subtle">Subscribe for daily market breakdowns.</p>
+        </div>
+        <div class="card">
+          <h2>Press & Media</h2>
+          <p>Email <a href="mailto:team@alphaagenth.com?subject=Media%20Inquiry">team@alphaagenth.com</a> with “Media Inquiry” in the subject.</p>
+          <p class="subtle">We can provide quotes, appearances, and background research.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Quick Message</h2>
+      <div class="card">
+        <form action="mailto:team@alphaagenth.com" method="post" enctype="text/plain">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div>
+              <label class="subtle">Name</label>
+              <input type="text" name="name" placeholder="Your name" required>
+            </div>
+            <div>
+              <label class="subtle">Email</label>
+              <input type="email" name="email" placeholder="you@example.com" required>
+            </div>
+            <div style="grid-column:1/-1">
+              <label class="subtle">Message</label>
+              <textarea name="message" placeholder="How can we help?" required></textarea>
+            </div>
+          </div>
+          <div class="cta" style="margin-top:12px">
+            <button class="btn" type="submit">Send</button>
+            <a class="btn ghost" href="mailto:team@alphaagenth.com">Open in Mail</a>
+          </div>
+          <p class="subtle" style="margin-top:8px">Tip: If the form doesn’t open your email client, use the “Open in Mail” button.</p>
+        </form>
+      </div>
+      <div class="ad-slot">Ad placeholder — contact bottom</div>
+    </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="wrap">
-      <div>© <span id="year"></span> AlphaAgentH. All rights reserved.</div>
-      <div class="links">
-        <a href="/privacy.html">Privacy</a>
-        <a href="/terms.html">Terms</a>
-        <a href="/sitemap.xml">Sitemap</a>
-      </div>
+  <footer class="footer">
+    <div class="wrap row">
+      <span>© <span id="year"></span> AlphaAgentH</span>
+      <span class="badge">AdSense-ready • Static & Fast</span>
     </div>
   </footer>
 
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 </body>
 </html>
