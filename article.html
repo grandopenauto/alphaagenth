@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Market Insight — AlphaAgentH</title>
+  <meta name="description" content="Deep-dive market insight article from AlphaAgentH." />
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+  <nav class="top">
+    <div class="wrap row">
+      <div class="brand"><img src="/images/profile_pic.jpg" alt="logo"><span class="name">AlphaAgentH</span></div>
+      <div class="menu">
+        <a href="/market-insights.html">Market Insights</a>
+        <a href="/ai_services.html">AI Services</a>
+        <a href="https://www.youtube.com/@AlphaAgentH" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn" href="/#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+  <main class="wrap article" id="article-root">
+    <article>
+      <h1 id="title">Loading…</h1>
+      <div class="meta"><span id="date"></span> • <span id="tags"></span></div>
+      <section class="ad-slot">Ad placeholder — article top</section>
+      <p id="summary" class="lede"></p>
+      <div class="video-wrap"><iframe id="video" width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+      <div id="content"></div>
+      <section class="ad-slot">Ad placeholder — article middle</section>
+      <div class="next-prev" id="next-prev"></div>
+      <section class="ad-slot">Ad placeholder — article bottom</section>
+    </article>
+  </main>
+  <footer class="footer"><div class="wrap row"><span>© <span id="year"></span> AlphaAgentH</span><span class="badge">AdSense-ready • Static & Fast</span></div></footer>
+  <script src="/js/main.js"></script>
+  <script>document.getElementById('year').textContent=new Date().getFullYear(); renderArticleFromSlug();</script>
+</body>
+</html>

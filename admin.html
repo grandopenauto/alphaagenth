@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin — Add Market Insight</title>
+  <link rel="stylesheet" href="/css/site.css"/>
+  <style>
+    .form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .form .full{grid-column:1/-1}
+    label{display:block;margin:6px 0 4px;color:var(--muted)}
+    input,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text)}
+    textarea{min-height:120px}
+    .small{font-size:12px;color:var(--muted)}
+    .note{margin:12px 0}
+    .log{white-space:pre-wrap;background:rgba(255,255,255,.03);padding:10px;border-radius:10px;border:1px solid var(--border);max-height:180px;overflow:auto}
+  </style>
+</head>
+<body>
+  <nav class="top">
+    <div class="wrap row">
+      <div class="brand"><img src="/images/profile_pic.jpg" alt="logo"><span class="name">AlphaAgentH Admin</span></div>
+      <div class="menu">
+        <a href="/market-insights.html">Market Insights</a>
+        <a class="btn" href="/">Home</a>
+      </div>
+    </div>
+  </nav>
+  <header class="hero">
+    <div class="wrap">
+      <h1>Add Market Insight</h1>
+      <p class="lede">This page commits directly to your GitHub repo’s <code>data/market-insights.json</code>. Provide a GitHub token with <b>repo</b> scope. Nothing is stored on a server — it’s all client‑side.</p>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="section">
+      <div class="card">
+        <h2>Repository Settings</h2>
+        <div class="form">
+          <div><label>Owner</label><input id="owner" placeholder="e.g., alphaagenth"/></div>
+          <div><label>Repo</label><input id="repo" placeholder="e.g., alphaagenth.github.io"/></div>
+          <div><label>Branch</label><input id="branch" value="main"/></div>
+          <div><label>JSON Path</label><input id="path" value="data/market-insights.json"/></div>
+          <div class="full"><label>GitHub Token</label><input id="token" type="password" placeholder="ghp_..."/></div>
+        </div>
+        <p class="small note">Tip: create a fine‑scoped Classic token with <em>repo</em> access. You can delete it anytime.</p>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h2>Article</h2>
+        <div class="form">
+          <div class="full"><label>Title</label><input id="title"></div>
+          <div><label>Date (YYYY-MM-DD)</label><input id="date"></div>
+          <div><label>Slug</label><input id="slug" placeholder="auto if blank"></div>
+          <div class="full"><label>Video Embed URL</label><input id="video" placeholder="https://www.youtube.com/embed/VIDEO_ID"></div>
+          <div class="full"><label>Summary</label><textarea id="summary"></textarea></div>
+          <div class="full"><label>Tags (comma separated)</label><input id="tags" placeholder="gold, oil, macro"></div>
+          <div class="full"><label>Content Blocks (one per line; use tag|text)</label><textarea id="content" placeholder="h2|Key Takeaways&#10;p|Bullet 1&#10;p|Bullet 2"></textarea></div>
+        </div>
+        <div class="cta" style="margin-top:12px">
+          <button class="btn" id="submit">Append & Commit</button>
+          <button class="btn ghost" id="preview">Preview JSON</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Log</h3>
+        <div class="log" id="log"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap row"><span>© <span id="year"></span> AlphaAgentH</span><span class="badge">Client‑side GitHub Editor</span></div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent=new Date().getFullYear();
+    const log = (m)=>{ const el=document.getElementById('log'); el.textContent += m + "\n"; el.scrollTop=el.scrollHeight; };
+    const b64 = (s)=> btoa(unescape(encodeURIComponent(s)));
+    const de64 = (s)=> decodeURIComponent(escape(atob(s)));
+    const slugify = s => (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'').substring(0,80);
+
+    async function ghGet(owner,repo,branch,path,token){
+      const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`,{
+        headers:{'Authorization':`Bearer ${token}`,'Accept':'application/vnd.github+json'}
+      });
+      if(!r.ok) throw new Error('Fetch failed: '+r.status);
+      return r.json();
+    }
+    async function ghPut(owner,repo,branch,path,token,content,sha,msg){
+      const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`,{
+        method:'PUT',
+        headers:{'Authorization':`Bearer ${token}`,'Accept':'application/vnd.github+json'},
+        body: JSON.stringify({message: msg, content: b64(content), branch, sha})
+      });
+      if(!r.ok) throw new Error('Commit failed: '+r.status);
+      return r.json();
+    }
+
+    function parseBlocks(raw){
+      const out=[];
+      (raw||'').split(/\n+/).forEach(line=>{
+        const ix=line.indexOf('|');
+        if(ix>0){
+          const tag=line.slice(0,ix).trim()||'p';
+          const text=line.slice(ix+1).trim();
+          if(text) out.push({tag,text});
+        }
+      });
+      return out;
+    }
+
+    async function handleAppend(){
+      try{
+        const owner=document.getElementById('owner').value.trim();
+        const repo=document.getElementById('repo').value.trim();
+        const branch=document.getElementById('branch').value.trim()||'main';
+        const path=document.getElementById('path').value.trim()||'data/market-insights.json';
+        const token=document.getElementById('token').value.trim();
+        if(!owner||!repo||!token){ alert('Owner, repo, token required'); return; }
+
+        const title=document.getElementById('title').value.trim();
+        const date=document.getElementById('date').value.trim();
+        let slug=document.getElementById('slug').value.trim();
+        const video=document.getElementById('video').value.trim();
+        const summary=document.getElementById('summary').value.trim();
+        const tags=(document.getElementById('tags').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+        const content=parseBlocks(document.getElementById('content').value);
+
+        if(!title||!date||!summary){ alert('Title, date, summary are required'); return; }
+        if(!slug) slug=slugify(title);
+
+        log('Fetching existing JSON...');
+        const file=await ghGet(owner,repo,branch,path,token);
+        const current=JSON.parse(de64(file.content));
+
+        if(current.find(a=>a.slug===slug)){ alert('Slug already exists. Choose a different slug.'); return; }
+
+        current.push({title: title, slug, date, videoUrl: video, summary, tags, content});
+        current.sort((a,b)=> a.date < b.date ? 1 : -1);
+
+        log('Committing update...');
+        const res=await ghPut(owner,repo,branch,path,token,JSON.stringify(current,null,2),file.sha,`chore: add article ${slug}`);
+        log('✅ Success! Commit ' + (res.commit && res.commit.sha ? res.commit.sha.substring(0,7) : 'ok'));
+
+      }catch(e){ console.error(e); log('❌ ' + e.message); }
+    }
+
+    function handlePreview(){
+      const title=document.getElementById('title').value.trim();
+      const date=document.getElementById('date').value.trim();
+      let slug=document.getElementById('slug').value.trim() || slugify(title);
+      const video=document.getElementById('video').value.trim();
+      const summary=document.getElementById('summary').value.trim();
+      const tags=(document.getElementById('tags').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+      const content=parseBlocks(document.getElementById('content').value);
+      const preview = {title, slug, date, videoUrl: video, summary, tags, content};
+      log('Preview entry:\n' + JSON.stringify(preview,null,2));
+    }
+
+    document.getElementById('submit').addEventListener('click', handleAppend);
+    document.getElementById('preview').addEventListener('click', handlePreview);
+  </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+const DATA_URL='/data/market-insights.json';
+async function fetchData(){const r=await fetch(DATA_URL,{cache:'no-store'});if(!r.ok)throw new Error('Failed to load JSON');return r.json();}
+function createCard(a){const t=document.createElement('article');t.className='card';const url=`/article.html?slug=${encodeURIComponent(a.slug)}`;t.innerHTML=`
+  <a href="${url}"><h3>${a.title}</h3></a>
+  <div class="meta">${a.date} ${(a.tags||[]).length? '• '+a.tags.map(t=>'#'+t).join(' '):''}</div>
+  <p>${a.summary}</p>
+  <a class="btn" href="${url}">Read Insight</a>`;return t;}
+async function renderInsightsGrid(selector){try{const data=await fetchData();const c=document.querySelector(selector);c.innerHTML='';data.sort((a,b)=>a.date<b.date?1:-1);data.forEach(a=>c.appendChild(createCard(a)));}catch(e){console.error(e);document.querySelector(selector).innerHTML='<p>Unable to load insights.</p>';}};
+function setMeta(title,desc){document.title=`${title} — AlphaAgentH`;const md=document.querySelector('meta[name="description"]');if(md)md.setAttribute('content',desc||'');}
+function tagsToText(tags){return (tags||[]).map(t=>'#'+t).join(' ');}
+async function renderArticleFromSlug(){const p=new URLSearchParams(location.search);const slug=p.get('slug');if(!slug)return;const root=document.getElementById('article-root');try{const data=await fetchData();const i=data.findIndex(a=>a.slug===slug);if(i===-1){root.innerHTML='<p>Article not found.</p>';return;}const a=data[i];document.getElementById('title').textContent=a.title;document.getElementById('date').textContent=a.date;document.getElementById('tags').textContent=tagsToText(a.tags);document.getElementById('summary').textContent=a.summary;document.getElementById('video').src=a.videoUrl;setMeta(a.title,a.summary);const content=document.getElementById('content');content.innerHTML='';(a.content||[]).forEach(b=>{const el=document.createElement(b.tag||'p');el.textContent=b.text||'';content.appendChild(el);});const prev=data[i-1],next=data[i+1];const np=document.getElementById('next-prev');np.innerHTML=`<div>${prev?`<a href="/article.html?slug=${encodeURIComponent(prev.slug)}">&larr; ${prev.title}</a>`:''}</div><div>${next?`<a href="/article.html?slug=${encodeURIComponent(next.slug)}">${next.title} &rarr;</a>`:''}</div>`;}catch(e){console.error(e);root.innerHTML='<p>Unable to load this article.</p>';}}

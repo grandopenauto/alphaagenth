@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Daily Market Insights — AlphaAgentH</title>
+  <meta name="description" content="Daily market insights derived from our YouTube breakdowns." />
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+  <nav class="top">
+    <div class="wrap row">
+      <div class="brand"><img src="/images/profile_pic.jpg" alt="logo"><span class="name">AlphaAgentH</span></div>
+      <div class="menu">
+        <a href="/market-insights.html">Market Insights</a>
+        <a href="/ai_services.html">AI Services</a>
+        <a href="https://www.youtube.com/@AlphaAgentH" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn" href="/#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+  <main class="wrap">
+    <header class="hero"><h1>Daily Market Insights</h1><p class="lede">Each post pairs a written recap with an embedded YouTube short. New entries appear automatically when added via the Admin page or JSON.</p></header>
+    <section class="section">
+      <div class="ad-slot">Ad placeholder — insights top</div>
+      <div id="articles" class="grid"></div>
+      <div class="ad-slot">Ad placeholder — insights bottom</div>
+    </section>
+  </main>
+  <footer class="footer"><div class="wrap row"><span>© <span id="year"></span> AlphaAgentH</span><span class="badge">AdSense-ready • Static & Fast</span></div></footer>
+  <script src="/js/main.js"></script>
+  <script>document.getElementById('year').textContent=new Date().getFullYear(); renderInsightsGrid('#articles');</script>
+</body>
+</html>

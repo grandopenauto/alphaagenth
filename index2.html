@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AlphaAgentH — Markets, AI & Strategy</title>
+  <meta name="description" content="Daily market insights, trading playbooks, and AI research from AlphaAgentH." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+  <nav class="top">
+    <div class="wrap row">
+      <div class="brand"><img src="/images/profile_pic.jpg" alt="AlphaAgentH logo"><span class="name">AlphaAgentH</span></div>
+      <div class="menu">
+        <a href="/market-insights.html">Market Insights</a>
+        <a href="/ai_services.html">AI Services</a>
+        <a href="https://www.youtube.com/@AlphaAgentH" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn" href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+  <header class="hero">
+    <div class="wrap">
+      <h1>Real-Time Thinking.<br/>Actionable Market Moves.</h1>
+      <p class="lede">We turn noisy news into tradable insight. Written recaps + YouTube breakdowns, delivered in a clean, fast experience.</p>
+      <div class="cta">
+        <a class="btn" href="/market-insights.html">Browse Market Insights</a>
+        <a class="btn ghost" href="/ai_services.html">Explore AI Services</a>
+      </div>
+      <div class="section"><img class="hero-img" src="/images/hero-preview.png" alt="Preview"/></div>
+      <div class="ad-slot">Ad placeholder — home top</div>
+      <div class="kpis">
+        <div class="kpi"><div class="num">Daily</div><div class="subtle">Market Recaps</div></div>
+        <div class="kpi"><div class="num">YouTube</div><div class="subtle">Paired Analysis</div></div>
+        <div class="kpi"><div class="num">Guides</div><div class="subtle">Playbooks</div></div>
+        <div class="kpi"><div class="num">Fast</div><div class="subtle">Mobile-first UX</div></div>
+      </div>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="section">
+      <h2>Latest Insights</h2>
+      <div id="latest" class="grid"></div>
+      <div class="ad-slot">Ad placeholder — home bottom</div>
+    </section>
+    <hr class="sep" />
+    <section class="section" id="contact">
+      <h2>Contact</h2>
+      <p class="lede">Partnerships, media, or consulting — <a href="mailto:team@alphaagenth.com">team@alphaagenth.com</a></p>
+    </section>
+  </main>
+  <footer class="footer"><div class="wrap row"><span>© <span id="year"></span> AlphaAgentH</span><span class="badge">AdSense-ready • Static & Fast</span></div></footer>
+  <script src="/js/site.js"></script>
+  <script>document.getElementById('year').textContent=new Date().getFullYear(); loadLatest('#latest',6);</script>
+</body>
+</html>
