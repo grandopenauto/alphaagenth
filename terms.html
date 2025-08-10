@@ -5,41 +5,57 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Terms of Service — AlphaAgentH</title>
   <meta name="description" content="Terms of Service for AlphaAgentH." />
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/site.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap">
-      <a class="brand" href="/">AlphaAgentH</a>
-      <nav>
-        <a href="/market-insights.html">Daily Market Insights</a>
-        <a href="/about.html">About</a>
-        <a href="/contact.html">Contact</a>
-      </nav>
+  <nav class="top">
+    <div class="wrap row">
+      <div class="brand"><img src="/images/profile_pic.jpg" alt="logo"><span class="name">AlphaAgentH</span></div>
+      <div class="menu">
+        <a href="/market-insights.html">Market Insights</a>
+        <a href="/ai_services.html">AI Services</a>
+        <a href="https://www.youtube.com/@AlphaAgentH" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn" href="/contact.html">Contact</a>
+      </div>
     </div>
-  </header>
+  </nav>
 
   <main class="wrap legal">
-    <h1>Terms of Service</h1>
-    <p>Effective date: 2025-08-10</p>
-    <p>All content is provided for informational and educational purposes only and is not investment advice. Markets involve risk. Past performance is not indicative of future results.</p>
-    <h2>Use of content</h2>
-    <p>You may link to our content with attribution. Reuse or redistribution requires permission.</p>
-    <h2>Disclaimers</h2>
-    <p>No warranties, express or implied. We are not liable for any losses resulting from the use of this site.</p>
+    <header class="hero">
+      <h1>Terms of Service</h1>
+      <p class="lede">Please read these terms carefully before using our site.</p>
+      <div class="ad-slot">Ad placeholder — terms top</div>
+    </header>
+
+    <section class="section card">
+      <h2>Use of Content</h2>
+      <p>All content is provided for informational and educational purposes only and is not investment advice. Markets involve risk. Past performance is not indicative of future results.</p>
+      <p>You may link to our content with attribution. Reuse or redistribution requires our permission.</p>
+
+      <h2>Disclaimers</h2>
+      <p>Content is provided “as is” without warranties of any kind. We are not liable for any losses arising from the use of this site.</p>
+
+      <h2>Changes</h2>
+      <p>We may update these terms from time to time. Material changes will be noted on this page.</p>
+
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:legal@alphaagenth.com">legal@alphaagenth.com</a></p>
+      <p class="subtle">Effective date: <span id="eff-date"></span></p>
+    </section>
+
+    <div class="ad-slot">Ad placeholder — terms bottom</div>
   </main>
 
-  <footer class="site-footer">
-    <div class="wrap">
-      <div>© <span id="year"></span> AlphaAgentH. All rights reserved.</div>
-      <div class="links">
-        <a href="/privacy.html">Privacy</a>
-        <a href="/terms.html">Terms</a>
-        <a href="/sitemap.xml">Sitemap</a>
-      </div>
+  <footer class="footer">
+    <div class="wrap row">
+      <span>© <span id="year"></span> AlphaAgentH</span>
+      <a class="badge" href="/sitemap.html">HTML Sitemap</a>
     </div>
   </footer>
 
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('eff-date').textContent = new Date().toISOString().slice(0,10);
+  </script>
 </body>
 </html>

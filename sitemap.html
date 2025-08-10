@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HTML Sitemap — AlphaAgentH</title>
+  <meta name="description" content="Site map for AlphaAgentH." />
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+  <nav class="top">
+    <div class="wrap row">
+      <div class="brand"><img src="/images/profile_pic.jpg" alt="logo"><span class="name">AlphaAgentH</span></div>
+      <div class="menu">
+        <a href="/market-insights.html">Market Insights</a>
+        <a href="/ai_services.html">AI Services</a>
+        <a href="https://www.youtube.com/@AlphaAgentH" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn" href="/contact.html">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <header class="hero">
+      <h1>HTML Sitemap</h1>
+      <p class="lede">Quick links to every public page and market insight article.</p>
+    </header>
+
+    <section class="section">
+      <div class="grid">
+        <div class="card">
+          <h2>Core Pages</h2>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/market-insights.html">Daily Market Insights</a></li>
+            <li><a href="/ai_services.html">AI Services</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms of Service</a></li>
+            <li><a href="/sitemap.xml">XML Sitemap</a></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>Market Insights</h2>
+          <div id="insight-links" class="grid"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap row">
+      <span>© <span id="year"></span> AlphaAgentH</span>
+      <span class="badge">AdSense-ready • Static & Fast</span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    async function loadLinks() {
+      try {
+        const res = await fetch('/data/market-insights.json', { cache: 'no-store' });
+        const data = await res.json();
+        data.sort((a,b) => a.date < b.date ? 1 : -1);
+        const container = document.getElementById('insight-links');
+        container.innerHTML = '';
+        data.forEach(a => {
+          const el = document.createElement('div');
+          el.className = 'card';
+          el.innerHTML = `<a href="/article.html?slug=${encodeURIComponent(a.slug)}">${a.title}</a><div class="subtle">${a.date}</div>`;
+          container.appendChild(el);
+        });
+      } catch (e) {
+        console.error(e);
+        document.getElementById('insight-links').innerHTML = '<p class="subtle">Unable to load articles.</p>';
+      }
+    }
+    loadLinks();
+  </script>
+</body>
+</html>

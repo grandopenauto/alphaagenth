@@ -5,46 +5,60 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Privacy Policy — AlphaAgentH</title>
   <meta name="description" content="Privacy Policy for AlphaAgentH." />
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/site.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap">
-      <a class="brand" href="/">AlphaAgentH</a>
-      <nav>
-        <a href="/market-insights.html">Daily Market Insights</a>
-        <a href="/about.html">About</a>
-        <a href="/contact.html">Contact</a>
-      </nav>
+  <nav class="top">
+    <div class="wrap row">
+      <div class="brand"><img src="/images/profile_pic.jpg" alt="logo"><span class="name">AlphaAgentH</span></div>
+      <div class="menu">
+        <a href="/market-insights.html">Market Insights</a>
+        <a href="/ai_services.html">AI Services</a>
+        <a href="https://www.youtube.com/@AlphaAgentH" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn" href="/contact.html">Contact</a>
+      </div>
     </div>
-  </header>
+  </nav>
 
   <main class="wrap legal">
-    <h1>Privacy Policy</h1>
-    <p>Effective date: 2025-08-10</p>
-    <p>We use cookies and analytics to improve performance and understand usage. If you apply for AdSense, Google may collect data to serve personalized or non-personalized ads as described in their policies.</p>
-    <h2>Information we collect</h2>
-    <ul>
-      <li>Basic usage analytics (pages visited, approximate location, device type)</li>
-      <li>Voluntary contact information when you email us</li>
-    </ul>
-    <h2>Ads & cookies</h2>
-    <p>This site may use Google AdSense. See <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google’s Advertising Policies</a> for details. You can manage ad personalization at Google’s settings.</p>
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:privacy@alphaagenth.com">privacy@alphaagenth.com</a></p>
+    <header class="hero">
+      <h1>Privacy Policy</h1>
+      <p class="lede">We respect your privacy and are committed to protecting it.</p>
+      <div class="ad-slot">Ad placeholder — privacy top</div>
+    </header>
+
+    <section class="section card">
+      <h2>Information We Collect</h2>
+      <p>We may collect anonymous usage analytics (pages visited, approximate location, device type). If you contact us, we receive the information you provide (e.g., name, email address).</p>
+
+      <h2>Advertising & Cookies</h2>
+      <p>This site may use Google AdSense. Google and its partners may use cookies and similar technologies to serve personalized or non-personalized ads, according to their policies.</p>
+      <p class="subtle">Learn more at <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google’s Advertising Policies</a>.</p>
+
+      <h2>Your Choices</h2>
+      <p>You can adjust cookie preferences in your browser settings and manage ad personalization in your Google account.</p>
+
+      <h2>Data Retention</h2>
+      <p>We retain analytics data in aggregate form. Emails you send us are retained as long as necessary to respond or as required by law.</p>
+
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:privacy@alphaagenth.com">privacy@alphaagenth.com</a></p>
+      <p class="subtle">Effective date: <span id="eff-date"></span></p>
+    </section>
+
+    <div class="ad-slot">Ad placeholder — privacy bottom</div>
   </main>
 
-  <footer class="site-footer">
-    <div class="wrap">
-      <div>© <span id="year"></span> AlphaAgentH. All rights reserved.</div>
-      <div class="links">
-        <a href="/privacy.html">Privacy</a>
-        <a href="/terms.html">Terms</a>
-        <a href="/sitemap.xml">Sitemap</a>
-      </div>
+  <footer class="footer">
+    <div class="wrap row">
+      <span>© <span id="year"></span> AlphaAgentH</span>
+      <a class="badge" href="/sitemap.html">HTML Sitemap</a>
     </div>
   </footer>
 
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('eff-date').textContent = new Date().toISOString().slice(0,10);
+  </script>
 </body>
 </html>
