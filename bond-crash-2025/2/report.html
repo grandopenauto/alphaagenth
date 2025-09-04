@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free Report — Bond Market Crash Playbook 2025</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="angle"></div>
+    <div class="wrap brand">
+      <div class="brand-left">
+        <img src="brand_logo.png" alt="Logo">
+        <div class="brand-name">AlphaAgentH</div>
+      </div>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="report.html">Free Report</a>
+        
+      </nav>
+    </div>
+    <div class="wrap hero">
+      <div>
+        <span class="badge">Free Educational Report</span>
+        <h1>Bond Market Crash Playbook 2025</h1>
+        <p class="lead">A practical, risk-first guide to using <b>futures</b> & <b>ETF options</b> when bond markets move.</p>
+        <div class="cta-buttons">
+          
+          <a class="btn secondary" href="#executive-summary">Start Reading</a>
+        </div>
+      </div>
+      <div class="card toc">
+        <h3 style="margin:0 0 8px 0">Contents</h3>
+        <a href="#executive-summary">1. Executive Summary</a>
+<a href="#why-this-matters-now">2. Why This Matters Now</a>
+<a href="#market-setup-and-the-april-parallel">3. Market Setup & the April Parallel</a>
+<a href="#macro-catalyst-calendar">4. Macro Catalyst Calendar</a>
+<a href="#zb-futures-contract-and-tick-math">5. /ZB Futures: Contract & Tick Math</a>
+<a href="#tlt-options-contract-basics">6. TLT Options: Contract Basics</a>
+<a href="#futures-vs-etf-options-when-to-use-each">7. Futures vs ETF Options: When to Use Each</a>
+<a href="#strategy-1-long-put">8. Strategy 1: Long Put</a>
+<a href="#case-study-long-put-walkthrough">9. Case Study: Long Put Walkthrough</a>
+<a href="#strategy-2-vertical-put-spread">10. Strategy 2: Vertical Put Spread</a>
+<a href="#case-study-put-spread-walkthrough">11. Case Study: Put Spread Walkthrough</a>
+<a href="#position-sizing-simple-frameworks">12. Position Sizing: Simple Frameworks</a>
+<a href="#entries,-exits-and-time-stops">13. Entries, Exits & Time Stops</a>
+<a href="#brokerages-that-support-options-on-futures">14. Brokerages That Support Options on Futures</a>
+<a href="#approvals,-fees-and-margin-notes">15. Approvals, Fees & Margin Notes</a>
+<a href="#simulator---how-to-practice">16. Simulator — How to Practice</a>
+<a href="#faq---common-questions">17. FAQ — Common Questions</a>
+<a href="#glossary---bond-and-options-terms">18. Glossary — Bond & Options Terms</a>
+<a href="#resources-and-next-steps">19. Resources & Next Steps</a>
+<a href="#disclaimers">20. Disclaimers</a>
+      </div>
+    </div>
+  </header>
+
+  
+    <section class="section" id="executive-summary">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 1</div>
+          <h2>Executive Summary</h2>
+          <p>This playbook explains how to express a cautious or bearish view on long-duration bonds using defined-risk options so your maximum loss is known up front. We compare /ZB (30-year Treasury bond futures) with TLT (20+ year Treasury ETF) and show when each instrument is the better fit. The goal is not to predict the future with perfect accuracy, but to build a process that converts a thesis into a small, planned risk and a favorable payoff profile.</p><p>Market conditions can change quickly around data releases. When catalysts cluster, repricing can compress into a handful of sessions. That is when options’ convexity shines: a well-timed, small debit can scale into meaningful gains if price moves decisively. If the thesis fails, you exit and the loss is limited to the premium or the defined spread risk. This document gives you the language, math, and checklists to operate with clarity rather than guesswork.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="why-this-matters-now">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 2</div>
+          <h2>Why This Matters Now</h2>
+          <p>Bonds are the market’s gravity. When long Treasuries move, they pull on equity valuations, credit spreads, and risk appetite. In the coming weeks, a run of labor and inflation prints can produce multiple fast repricings. For individual traders, the most practical approach is to define risk tightly and let timing do more of the work than raw conviction.</p><p>Three practical guidelines: (1) Focus on clean structures like long puts or vertical put spreads. Simple trades are easier to manage under stress. (2) Align your days-to-expiration with the catalyst window and add a small buffer; you want time for follow-through without paying too much decay. (3) Decide exits before entry: price targets to scale out, invalidation that closes the idea, and a time stop so you are never “stuck”. Small, repeatable decisions beat oversized bets.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="market-setup-and-the-april-parallel">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 3</div>
+          <h2>Market Setup & the April Parallel</h2>
+          <p>Earlier this year, long bonds sold off swiftly, stabilized, and carved a reference low. That low now acts as a line in the sand. A softer U.S. dollar can reduce foreign demand for Treasuries, while persistent inflation erodes real returns. If price retests and breaks the prior low, downside can accelerate as positioning unwinds and risk budgets reset.</p><p>Be mindful of false breaks. Liquidity around data can trigger wick-like moves that briefly pierce a level and snap back. Your plan should account for this: use alerts rather than chasing, and lean on your pre-defined invalidation and time stops. The aim is not to capture every tick; it is to capture the meat of the move without exposing the account to open-ended risk.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="macro-catalyst-calendar">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 4</div>
+          <h2>Macro Catalyst Calendar</h2>
+          <p>The most relevant scheduled events are labor data (JOLTS, ADP, and Nonfarm Payrolls), inflation prints (CPI and PPI), and Federal Reserve decisions and minutes. Treasury auctions can matter when supply is heavy or bid quality shifts. Each release modifies the path of growth, inflation, and policy expectations, and in turn the discount rate applied to assets.</p><p>Planning tips: (1) Build a weekly calendar with release times and estimate windows. (2) Favor entries when the market transitions from expectation to realization; tactics include buying premium before a print you expect to surprise or buying pullbacks after confirmation. (3) Avoid being forced to hold through a gap against you. If you must, keep position size minimal and use defined-risk structures.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="zb-futures-contract-and-tick-math">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 5</div>
+          <h2>/ZB Futures: Contract & Tick Math</h2>
+          <p>/ZB quotes in 32nds of a point. A screen price of 114'16 means 114 + 16/32. One point equals $1,000 per contract, and one tick (1/32) equals $31.25. Options on /ZB are quoted in the same fractional style: a premium of 0'20 is 20/32 of a point, or 0.625 points, which is $625 per contract.</p><p>Two quick examples: (1) If /ZB rises from 114'16 to 115'16, that is +1.00 points and approximately +$1,000. (2) If price falls from 115'04 to 114'28, that is -8/32 = -0.25 points, or about -$250. Mastering this conversion makes sizing and P/L expectations far more intuitive.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="tlt-options-contract-basics">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 6</div>
+          <h2>TLT Options: Contract Basics</h2>
+          <p>TLT options look and feel like stock options: premiums are in dollars per share, and each contract controls 100 shares. A $3.00 premium costs $300 plus fees. For a long put, the breakeven at expiration is strike minus premium; a $90 put purchased for $3.00 has a breakeven of $87. If TLT closes above $90 at expiration, the option expires worthless and the loss is the $300 debit.</p><p>The advantage is granular sizing and many expirations (weeklies and monthlies). You can pick a contract that fits your account and time frame. The trade-off relative to /ZB is that notional exposure is smaller per contract and deep liquidity can cluster in popular expiries and strikes.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="futures-vs-etf-options-when-to-use-each">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 7</div>
+          <h2>Futures vs ETF Options: When to Use Each</h2>
+          <p>Use /ZB options when you need larger notional exposure, want to engage with the futures smile, or prefer the bond market’s direct price discovery. Use TLT options when you want simplicity, fine-grained sizing, and the comfort of stock-style quotes.</p><p>Think in constraints: approvals, fees, liquidity at your strikes, and psychological comfort. If bond fractions and ticks still feel foreign, start with TLT until the math is second nature. Complexity adds cognitive load, and the best trades are the ones you can execute cleanly under pressure.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="strategy-1-long-put">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 8</div>
+          <h2>Strategy 1: Long Put</h2>
+          <p>Objective: gain from a decisive downside move while capping risk at the premium. Setup: choose a strike near-the-money so delta is responsive, and pick an expiration that spans the catalyst plus a small buffer. Your thesis should be written in one sentence, your invalidation in another.</p><p>Checklist: (1) Entry trigger: breakdown through support or confirmed post-data momentum. (2) Risk: premium paid. (3) Targets: pre-plan scales (for example, +30% and +60%). (4) Invalidation: reclaim of level or failed follow-through. (5) Time stop: if the thesis does not progress within several sessions, reduce or exit.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="case-study-long-put-walkthrough">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 9</div>
+          <h2>Case Study: Long Put Walkthrough</h2>
+          <p>Assume TLT is trading near 90. You buy the 90 put for $3.00, spending $300. If price closes at 84 on expiration, the option is worth about $6.00, for roughly $300 profit before costs. If price closes at 92, the option expires worthless and your loss is the $300 debit.</p><p>The management edge is writing your plan before you click. If a strong move occurs quickly, scale some risk off and trail the remainder. If price hesitates or your level is reclaimed, cut the position quickly; conviction is not a reason to expand risk beyond the plan.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="strategy-2-vertical-put-spread">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 10</div>
+          <h2>Strategy 2: Vertical Put Spread</h2>
+          <p>Objective: reduce cash outlay and theta bleed by selling a lower strike put against the long put. Setup: buy a near-ATM put and sell a further OTM put. Net debit equals the premium paid minus the premium received. Max gain equals strike width minus net debit, achieved if price finishes at or below the short strike at expiration.</p><p>This is often attractive when implied volatility is elevated into a catalyst and you want defined risk without paying top dollar for long premium. The trade sacrifices uncapped downside for a better cost basis and a clearer risk profile.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="case-study-put-spread-walkthrough">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 11</div>
+          <h2>Case Study: Put Spread Walkthrough</h2>
+          <p>Assume TLT is near 90. You buy the 90 put and sell the 80 put for a net $1.80 debit ($180). The spread width is $10, so the max gain is $10 - $1.80 = $8.20 ($820). Breakeven is roughly 88.20. If TLT closes near 83, the spread might be worth around $7.00, producing a gain near $520 before costs.</p><p>Management idea: if the spread reaches 50% to 70% of max value quickly, consider taking profits. Time is not your friend after the initial expansion; a time stop keeps you from donating gains back to decay.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="position-sizing-simple-frameworks">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 12</div>
+          <h2>Position Sizing: Simple Frameworks</h2>
+          <p>Risk a small, fixed fraction of the account per trade: many traders use 0.5% to 2.0% of equity as the allowed maximum loss (the option debit or the spread’s defined risk). Tier risk by event quality: smaller into uncertainty, a touch larger when multiple signals align and your process has been working.</p><p>Keep a portfolio cap on total premium at risk across open trades. If the worst case occurred on all positions at once, your account should still be intact. If you cannot tolerate the full debit as a loss, reduce size until you can.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="entries,-exits-and-time-stops">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 13</div>
+          <h2>Entries, Exits & Time Stops</h2>
+          <p>Entries: favor breakdowns through well-watched levels, confirmation after data, or pullbacks to resistance in a new downtrend. Exits: pre-plan your profit-taking and define exactly what invalidates the idea. Time stops acknowledge reality: if the thesis is not progressing after several sessions, redeploy the capital rather than waiting for hope to pay.</p><p>Scaling out is a practical way to convert open gains into realized gains while leaving a runner for extension. Never let a winning trade turn into a loser because the plan was vague.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="brokerages-that-support-options-on-futures">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 14</div>
+          <h2>Brokerages That Support Options on Futures</h2>
+          <p>Most major multi-asset brokers support options on futures, including thinkorswim (Schwab), Interactive Brokers, tastytrade, TradeStation, and several futures-focused FCMs such as Optimus or AMP that connect to different trading platforms. Support, permissions, and fees can vary by product and account type.</p><p>Action item: verify that your specific account has the correct approvals enabled, and review the commission schedule plus exchange and clearing fees for the exact contract you plan to trade.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="approvals,-fees-and-margin-notes">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 15</div>
+          <h2>Approvals, Fees & Margin Notes</h2>
+          <p>Approvals: futures and options permissions are separate; you will complete questionnaires about objectives, experience, and risk tolerance. Fees: beyond commissions, each contract carries exchange and clearing costs that differ by product. Margin: long options use cash debits, while spreads may have reduced requirements relative to naked options.</p><p>Before you place a live order, calculate the all-in cost and verify the maximum risk. If either number feels uncomfortable, reduce size or simplify the structure until it fits.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="simulator---how-to-practice">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 16</div>
+          <h2>Simulator — How to Practice</h2>
+          <p>Use a paper account to build muscle memory. Step 1: convert /ZB ticks to dollars and verify your math with a few scenarios. Step 2: simulate an entry around a data release and record the P/L path. Step 3: practice exits using partials and time stops. Step 4: run the same process on TLT options and compare sensitivity. Step 5: review weekly and make one small improvement per cycle.</p><p>Your goal is not perfect calls; it is consistent execution with tight risk and clean reviews. When that is stable, size can grow gradually.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="faq---common-questions">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 17</div>
+          <h2>FAQ — Common Questions</h2>
+          <p>Q: Can I trade “just one tick”? A: No. You trade contracts. Each tick is the minimum price increment that moves P/L on the contract you hold.
+Q: Is TLT safer than /ZB? A: Neither is inherently safer. TLT is simpler to size. Risk is determined by your structure and discipline.
+Q: What DTE should I use? A: Cover the catalyst window with a small buffer. Longer DTE reduces decay sensitivity but costs more.
+Q: How big should I start? A: Small enough that the full debit is tolerable without stress. If you feel stress, the size is too large.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="glossary---bond-and-options-terms">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 18</div>
+          <h2>Glossary — Bond & Options Terms</h2>
+          <p>32nds: bond price fractions; 1/32 equals one tick. Duration: price sensitivity to yield changes. Convexity: how duration changes as yields move. Implied volatility (IV): the market’s expected future volatility embedded in option prices. DTE: days to expiration. Term premium: extra yield for holding longer maturities. Assignment and exercise: how rights and obligations are realized. American vs European options: exercise any time before expiration vs only at expiration.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="resources-and-next-steps">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 19</div>
+          <h2>Resources & Next Steps</h2>
+          <p>1) Set up or confirm your paper account. 2) Build a catalyst calendar with release times. 3) Pick one structure (long put or put spread) and run five small simulations end to end. 4) Journal each trade with the same template: setup, size, why, how, outcome, lesson. 5) Create a one-page rules card and keep it visible while trading. 6) Only after consistency improves, scale size a notch.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" id="disclaimers">
+      <div class="wrap">
+        <div class="card">
+          <div class="kicker">Section 20</div>
+          <h2>Disclaimers</h2>
+          <p>This document is educational and not financial advice. Options involve risk and are not suitable for all investors. Past performance does not guarantee future results. Verify all specifications, fees, and approvals with your broker. © 2025 AlphaAgentH. All rights reserved.</p>
+          
+        </div>
+      </div>
+    </section>
+    
+
+  <footer>
+    <div class="wrap">© 2025 AlphaAgentH — Educational only. Not financial advice.</div>
+  </footer>
+</body>
+</html>
