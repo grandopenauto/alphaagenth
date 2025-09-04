@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bond Options Sim Lab</title>
+  <style>
+    :root {
+      --bg: #0b1220; --card: #11192b; --muted: #6b86b4; --text: #e8f1ff; --accent: #4fc3f7; --good:#35d07f; --bad:#ff6b6b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial}
+    header{padding:16px 20px;border-bottom:1px solid #1f2a44;background:linear-gradient(180deg,#0d1526,#0b1220)}
+    h1{margin:0;font-size:18px;font-weight:700;letter-spacing:.3px}
+    .container{padding:18px;max-width:1200px;margin:0 auto}
+    .tabs{display:flex;gap:8px;margin-bottom:16px}
+    .tab{padding:10px 14px;border:1px solid #1f2a44;background:#0e1628;border-radius:10px;cursor:pointer;color:var(--muted)}
+    .tab.active{background:var(--card);color:var(--text);border-color:#2a3a63}
+    .grid{display:grid;grid-template-columns: 280px 1fr; gap:16px}
+    .card{background:var(--card);border:1px solid #1f2a44;border-radius:14px;padding:14px}
+    .card h3{margin:0 0 10px 0;font-size:14px;color:#b7c8ea}
+    label{display:block;margin:8px 0 6px;color:#b7c8ea}
+    input, select, button{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #27365a;background:#0d1526;color:var(--text)}
+    input[type="number"]{appearance:textfield}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .muted{color:var(--muted)}
+    .flex{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .btn{cursor:pointer;background:#13203b;border-color:#2a3a63}
+    .btn.primary{background:linear-gradient(180deg,#1a2a4a,#15233f);border-color:#3a4f7f}
+    .btn.green{background:#123523;border-color:#1c5a39}
+    .btn.red{background:#3a141b;border-color:#6b1e2b}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px;border-bottom:1px solid #1f2a44;text-align:right}
+    th:first-child, td:first-child{text-align:left}
+    code{background:#0d1526;border:1px solid #1f2a44;padding:2px 6px;border-radius:6px}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid #2a3a63;background:#0e1628;color:#b7c8ea;font-size:12px}
+    .pl{font-weight:700}
+    .pl.pos{color:var(--good)}
+    .pl.neg{color:var(--bad)}
+  </style>
+</head>
+<body>
+<header>
+  <h1>Bond Options Sim Lab — Futures (/ZB) & TLT Options</h1>
+</header>
+<div class="container">
+  <div class="tabs">
+    <div class="tab active" data-tab="fut">/ZB Futures Options</div>
+    <div class="tab" data-tab="tlt">TLT Options</div>
+  </div>
+
+  <!-- Shared account panel -->
+  <div class="grid">
+    <div class="card">
+      <h3>Account</h3>
+      <label>Starting Balance ($)</label>
+      <input id="startBalance" type="number" value="10000" min="0" step="100" />
+      <div class="row">
+        <div>
+          <label>Allocate Per Trade ($)</label>
+          <input id="allocPerTrade" type="number" value="1000" min="0" step="50" />
+        </div>
+        <div>
+          <label>Cash Available ($)</label>
+          <input id="cashAvail" type="text" value="10000" readonly />
+        </div>
+      </div>
+      <div style="margin-top:10px" class="flex">
+        <button class="btn" id="resetAcct">Reset Account</button>
+      </div>
+      <p class="muted" style="margin-top:10px">This sim only allows <b>long options</b> (buy to open) so risk is limited to premium paid. Use <b>Sell/Close</b> to exit positions.</p>
+    </div>
+
+    <div class="card" id="panel-fut">
+      <h3>/ZB Futures Options (/ZB — 30Y Treasury)</h3>
+      <div class="row">
+        <div>
+          <label>Underlying Price (points)</label>
+          <input id="zbPrice" type="number" value="114.5" step="0.03125" />
+        </div>
+        <div>
+          <label>Show Price</label>
+          <div class="flex">
+            <span id="zbPriceFmt" class="pill">114'16</span>
+            <span class="pill">1 tick = $31.25</span>
+            <span class="pill">1 point = $1,000</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Implied Volatility (%)</label>
+          <input id="zbIV" type="number" value="18" step="1" />
+        </div>
+        <div>
+          <label>Days to Expiration</label>
+          <input id="zbDTE" type="number" value="30" min="1" />
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Select Strike</label>
+          <select id="zbStrike"></select>
+        </div>
+        <div>
+          <label>Premium (model)</label>
+          <input id="zbPrem" type="text" readonly />
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Qty</label>
+          <input id="zbQty" type="number" value="1" min="1" />
+        </div>
+        <div class="flex" style="margin-top:28px">
+          <button class="btn green" id="zbBuyPut">Buy Put</button>
+          <button class="btn" id="zbBuyCall">Buy Call</button>
+        </div>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <div class="flex">
+          <button class="btn primary" id="zbStart">Start</button>
+          <button class="btn" id="zbStop">Stop</button>
+          <button class="btn" id="zbStep">Step</button>
+          <button class="btn" id="zbReset">Reset Price</button>
+        </div>
+        <div class="muted" id="zbTickInfo">Timer: stopped • Δ uses random walk (vol slider)</div>
+      </div>
+    </div>
+
+    <div class="card" id="panel-tlt" style="display:none">
+      <h3>TLT Options (ETF)</h3>
+      <div class="row">
+        <div>
+          <label>Underlying Price ($)</label>
+          <input id="tltPrice" type="number" value="90" step="0.1" />
+        </div>
+        <div class="row" style="gap:8px">
+          <div>
+            <label>Implied Volatility (%)</label>
+            <input id="tltIV" type="number" value="22" step="1" />
+          </div>
+          <div>
+            <label>Days to Expiration</label>
+            <input id="tltDTE" type="number" value="30" min="1" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Select Strike</label>
+          <select id="tltStrike"></select>
+        </div>
+        <div>
+          <label>Premium (model)</label>
+          <input id="tltPrem" type="text" readonly />
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Qty (contracts)</label>
+          <input id="tltQty" type="number" value="1" min="1" />
+        </div>
+        <div class="flex" style="margin-top:28px">
+          <button class="btn green" id="tltBuyPut">Buy Put</button>
+          <button class="btn" id="tltBuyCall">Buy Call</button>
+        </div>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <div class="flex">
+          <button class="btn primary" id="tltStart">Start</button>
+          <button class="btn" id="tltStop">Stop</button>
+          <button class="btn" id="tltStep">Step</button>
+          <button class="btn" id="tltReset">Reset Price</button>
+        </div>
+        <div class="muted" id="tltTickInfo">Timer: stopped • Δ uses random walk (vol slider)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>Open Positions</h3>
+    <table id="posTable">
+      <thead>
+        <tr>
+          <th>Instrument</th><th>Type</th><th>Strike</th><th>Qty</th><th>Expiry (DTE)</th><th>Entry ($)</th><th>Last ($)</th><th>P/L ($)</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="flex" style="justify-content:space-between;margin-top:8px">
+      <div class="muted">Pricing model: Black (Black-76 for futures, Black–Scholes for TLT). r=0, no dividends. For learning only.</div>
+      <div><span class="pill">Equity: $<span id="equity">10000</span></span> <span class="pill">Unrealized P/L: <span id="uPL" class="pl">0</span></span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== Utilities =====
+const fmtUSD = x => Number(x).toLocaleString(undefined,{maximumFractionDigits:2,minimumFractionDigits:2});
+const clamp = (x,a,b)=> Math.max(a, Math.min(b,x));
+const toBondFrac = (p)=>{ // 114.5 -> 114'16 style (since .5 *32 = 16)
+  const whole = Math.floor(p);
+  const frac = Math.round((p - whole) * 32);
+  return `${whole}'${String(frac).padStart(2,'0')}`;
+};
+
+// Normal CDF (Abramowitz/Stegun)
+function erf(x){const s=Math.sign(x);x=Math.abs(x);const a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=0.3275911;const t=1/(1+p*x);const y=1-((((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t)*Math.exp(-x*x);return s*y;}
+const N = (z)=> 0.5*(1+erf(z/Math.SQRT2));
+
+// Black-76 (options on futures). r ~ 0, discount ~1
+function black76(F,K,vol,years,isCall){
+  if(vol<=0 || years<=0){ // intrinsic only
+    const intrinsic = isCall? Math.max(F-K,0): Math.max(K-F,0);
+    return intrinsic;
+  }
+  const v = vol/100; const t = years; const sig = v*Math.sqrt(t);
+  const d1 = (Math.log(F/K) + 0.5*sig*sig)/sig;
+  const d2 = d1 - sig;
+  return isCall? (F*N(d1) - K*N(d2)) : (K*N(-d2) - F*N(-d1));
+}
+
+// Black–Scholes (equity options). r=0, q=0
+function blackScholes(S,K,vol,years,isCall){
+  if(vol<=0 || years<=0){ const intrinsic=isCall?Math.max(S-K,0):Math.max(K-S,0); return intrinsic; }
+  const v=vol/100; const t=years; const sig=v*Math.sqrt(t);
+  const d1=(Math.log(S/K)+(0.5*sig*sig))/sig; const d2=d1 - sig;
+  return isCall? (S*N(d1)-K*N(d2)) : (K*N(-d2)-S*N(-d1));
+}
+
+// Global state
+const state = {
+  cash: 10000,
+  positions: [], // {sym, kind:'put'|'call', type:'FUT'|'TLT', K, qty, dte, entry, time0}
+  timers: {fut:null, tlt:null},
+  prices: {zb:114.5, zb0:114.5, tlt:90, tlt0:90},
+};
+
+// DOM refs
+const startBalance = document.getElementById('startBalance');
+const allocPerTrade = document.getElementById('allocPerTrade');
+const cashAvail = document.getElementById('cashAvail');
+const equityEl = document.getElementById('equity');
+const uPLEl = document.getElementById('uPL');
+
+// Tabs
+for (const t of document.querySelectorAll('.tab')){
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const which = t.dataset.tab;
+    document.getElementById('panel-fut').style.display = which==='fut'? 'block':'none';
+    document.getElementById('panel-tlt').style.display = which==='tlt'? 'block':'none';
+  })
+}
+
+// Account handlers
+function resetAccount(){
+  state.cash = Number(startBalance.value||0);
+  state.positions = [];
+  updateCashUI();
+  renderPositions();
+}
+function updateCashUI(){
+  cashAvail.value = fmtUSD(state.cash);
+  equityEl.textContent = fmtUSD(state.cash + unrealizedPL());
+  const pl = unrealizedPL();
+  uPLEl.textContent = (pl>=0?'+':'') + fmtUSD(pl);
+  uPLEl.className = 'pl ' + (pl>0?'pos':(pl<0?'neg':''));
+}
+
+document.getElementById('resetAcct').onclick = resetAccount;
+startBalance.addEventListener('change', resetAccount);
+
+// ===== /ZB panel =====
+const zbPrice = document.getElementById('zbPrice');
+const zbPriceFmt = document.getElementById('zbPriceFmt');
+const zbIV = document.getElementById('zbIV');
+const zbDTE = document.getElementById('zbDTE');
+const zbStrike = document.getElementById('zbStrike');
+const zbPrem = document.getElementById('zbPrem');
+const zbQty = document.getElementById('zbQty');
+const zbTickInfo = document.getElementById('zbTickInfo');
+
+function fillZBStrikes(){
+  zbStrike.innerHTML = '';
+  const p = Number(zbPrice.value);
+  for(let k = p-3; k <= p+3; k += 0.5){
+    const opt = document.createElement('option');
+    opt.value = k.toFixed(3);
+    opt.textContent = `${k.toFixed(3)}  ( ${toBondFrac(k)} )`;
+    if (Math.abs(k-p) < 0.26) opt.selected = true;
+    zbStrike.appendChild(opt);
+  }
+}
+
+function updateZBPrem(){
+  const F = Number(zbPrice.value);
+  const K = Number(zbStrike.value);
+  const iv = Number(zbIV.value);
+  const years = Number(zbDTE.value)/365;
+  const call = black76(F,K,iv,years,true);
+  const put = black76(F,K,iv,years,false);
+  // Convert points -> $ using $1000 per point
+  zbPrem.dataset.call = (call*1000).toFixed(2);
+  zbPrem.dataset.put  = (put*1000).toFixed(2);
+  zbPrem.value = `Call $${fmtUSD(call*1000)}  |  Put $${fmtUSD(put*1000)} (per contract)`;
+  zbPriceFmt.textContent = toBondFrac(F);
+}
+
+zbPrice.addEventListener('input', ()=>{state.prices.zb = Number(zbPrice.value); updateZBPrem();});
+[zbIV, zbDTE, zbStrike].forEach(el=> el.addEventListener('input', updateZBPrem));
+
+// Buy buttons
+function placeZB(kind){
+  const qty = Math.max(1, Number(zbQty.value|0));
+  const price = Number(zbPrem.dataset[kind]); // dollars per contract
+  const cost = price * qty;
+  const alloc = Number(allocPerTrade.value||0);
+  if(cost > state.cash){ alert('Not enough cash for this order.'); return; }
+  if(cost > alloc && alloc>0){ if(!confirm(`Order cost $${fmtUSD(cost)} exceeds allocation $${fmtUSD(alloc)}. Proceed?`)) return; }
+  state.cash -= cost;
+  state.positions.push({sym:'/ZB', type:'FUT', kind, K:Number(zbStrike.value), qty, dte:Number(zbDTE.value), entry:price, time0:Date.now()});
+  updateCashUI();
+  renderPositions();
+}
+
+document.getElementById('zbBuyPut').onclick = ()=> placeZB('put');
+ document.getElementById('zbBuyCall').onclick = ()=> placeZB('call');
+
+// Timer logic (random walk)
+let zbTimer = null;
+function zbTick(){
+  // Random step scaled by IV: approx daily sigma = iv%/sqrt(252). We'll simulate per 0.5s as ~1/1000 day.
+  const dtDays = 1/1000;
+  const iv = Number(zbIV.value)/100; // annual
+  const daily = iv/Math.sqrt(252);
+  const step = daily * Math.sqrt(dtDays) * state.prices.zb * (Math.random()*2-1); // symmetric RW
+  state.prices.zb = clamp(state.prices.zb + step, 80, 160);
+  zbPrice.value = state.prices.zb.toFixed(5);
+  updateZBPrem();
+  renderPositions();
+}
+
+document.getElementById('zbStart').onclick = ()=>{ if(zbTimer) return; zbTimer = setInterval(zbTick, 500); zbTickInfo.textContent='Timer: running'; }
+ document.getElementById('zbStop').onclick = ()=>{ clearInterval(zbTimer); zbTimer=null; zbTickInfo.textContent='Timer: stopped'; }
+ document.getElementById('zbStep').onclick = ()=> zbTick();
+ document.getElementById('zbReset').onclick = ()=>{ state.prices.zb = state.prices.zb0; zbPrice.value = state.prices.zb; updateZBPrem(); renderPositions(); };
+
+// ===== TLT panel =====
+const tltPrice = document.getElementById('tltPrice');
+const tltIV = document.getElementById('tltIV');
+const tltDTE = document.getElementById('tltDTE');
+const tltStrike = document.getElementById('tltStrike');
+const tltPrem = document.getElementById('tltPrem');
+const tltQty = document.getElementById('tltQty');
+const tltTickInfo = document.getElementById('tltTickInfo');
+
+function fillTLTStrikes(){
+  tltStrike.innerHTML='';
+  const p = Number(tltPrice.value);
+  for(let k = p-10; k <= p+10; k += 1){
+    const opt = document.createElement('option');
+    opt.value = k.toFixed(2);
+    opt.textContent = `$${k.toFixed(2)}`;
+    if(Math.abs(k-p) < 0.6) opt.selected = true;
+    tltStrike.appendChild(opt);
+  }
+}
+
+function updateTLTPrem(){
+  const S = Number(tltPrice.value);
+  const K = Number(tltStrike.value);
+  const iv = Number(tltIV.value);
+  const years = Number(tltDTE.value)/365;
+  const call = blackScholes(S,K,iv,years,true);
+  const put = blackScholes(S,K,iv,years,false);
+  tltPrem.dataset.call = (call*100).toFixed(2); // per contract (100x)
+  tltPrem.dataset.put  = (put*100).toFixed(2);
+  tltPrem.value = `Call $${fmtUSD(call*100)}  |  Put $${fmtUSD(put*100)} (per contract)`;
+}
+
+tltPrice.addEventListener('input', ()=>{state.prices.tlt = Number(tltPrice.value); updateTLTPrem();});
+[tltIV, tltDTE, tltStrike].forEach(el=> el.addEventListener('input', updateTLTPrem));
+
+function placeTLT(kind){
+  const qty = Math.max(1, Number(tltQty.value|0));
+  const price = Number(tltPrem.dataset[kind]);
+  const cost = price * qty;
+  const alloc = Number(allocPerTrade.value||0);
+  if(cost > state.cash){ alert('Not enough cash for this order.'); return; }
+  if(cost > alloc && alloc>0){ if(!confirm(`Order cost $${fmtUSD(cost)} exceeds allocation $${fmtUSD(alloc)}. Proceed?`)) return; }
+  state.cash -= cost;
+  state.positions.push({sym:'TLT', type:'TLT', kind, K:Number(tltStrike.value), qty, dte:Number(tltDTE.value), entry:price, time0:Date.now()});
+  updateCashUI();
+  renderPositions();
+}
+
+document.getElementById('tltBuyPut').onclick = ()=> placeTLT('put');
+ document.getElementById('tltBuyCall').onclick = ()=> placeTLT('call');
+
+let tltTimer=null;
+function tltTick(){
+  const dtDays = 1/1000;
+  const iv = Number(tltIV.value)/100;
+  const daily = iv/Math.sqrt(252);
+  const step = daily * Math.sqrt(dtDays) * state.prices.tlt * (Math.random()*2-1);
+  state.prices.tlt = clamp(state.prices.tlt + step, 40, 140);
+  tltPrice.value = state.prices.tlt.toFixed(2);
+  updateTLTPrem();
+  renderPositions();
+}
+
+document.getElementById('tltStart').onclick = ()=>{ if(tltTimer) return; tltTimer=setInterval(tltTick,500); tltTickInfo.textContent='Timer: running'; }
+ document.getElementById('tltStop').onclick = ()=>{ clearInterval(tltTimer); tltTimer=null; tltTickInfo.textContent='Timer: stopped'; }
+ document.getElementById('tltStep').onclick = ()=> tltTick();
+ document.getElementById('tltReset').onclick = ()=>{ state.prices.tlt = state.prices.tlt0; tltPrice.value = state.prices.tlt; updateTLTPrem(); renderPositions(); };
+
+// ===== Positions table =====
+function currentOptionPrice(pos){
+  if(pos.type==='FUT'){
+    const F = state.prices.zb; const years = pos.dte/365; const K = pos.K; const iv = Number(zbIV.value);
+    const px = black76(F,K,iv,years,pos.kind==='call')*1000; // $ per contract
+    return px;
+  } else { // TLT
+    const S = state.prices.tlt; const years = pos.dte/365; const K = pos.K; const iv = Number(tltIV.value);
+    const px = blackScholes(S,K,iv,years,pos.kind==='call')*100; // $ per contract
+    return px;
+  }
+}
+
+function unrealizedPL(){
+  let pl=0;
+  for(const p of state.positions){ pl += (currentOptionPrice(p) - p.entry) * p.qty; }
+  return pl;
+}
+
+function closePosition(idx){
+  const p = state.positions[idx];
+  const exit = currentOptionPrice(p) * p.qty;
+  state.cash += exit; // receive proceeds
+  state.positions.splice(idx,1);
+  updateCashUI();
+  renderPositions();
+}
+
+function renderPositions(){
+  const tbody = document.querySelector('#posTable tbody');
+  tbody.innerHTML='';
+  state.positions.forEach((p,idx)=>{
+    const last = currentOptionPrice(p);
+    const pl = (last - p.entry) * p.qty;
+    const tr = document.createElement('tr');
+    const cols = [
+      p.sym,
+      p.kind.toUpperCase(),
+      p.K,
+      p.qty,
+      p.dte,
+      fmtUSD(p.entry),
+      fmtUSD(last),
+      `<span class="pl ${pl>0?'pos':(pl<0?'neg':'')}">${pl>=0?'+':''}${fmtUSD(pl)}</span>`,
+      `<button class='btn red' data-idx='${idx}'>Sell / Close</button>`
+    ];
+    cols.forEach((c,i)=>{ const td=document.createElement('td'); if(i===8){ td.innerHTML=c; } else { td.innerHTML=c; } tr.appendChild(td);});
+    tbody.appendChild(tr);
+  });
+  // attach events
+  tbody.querySelectorAll('button[data-idx]').forEach(btn=>{
+    btn.addEventListener('click', ()=> closePosition(Number(btn.dataset.idx)));
+  });
+  updateCashUI();
+}
+
+// Init
+resetAccount();
+fillZBStrikes();
+fillTLTStrikes();
+updateZBPrem();
+updateTLTPrem();
+
+document.getElementById('zbPrice').dispatchEvent(new Event('input'));
+document.getElementById('tltPrice').dispatchEvent(new Event('input'));
+</script>
+</body>
+</html>
